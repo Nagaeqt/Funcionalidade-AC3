@@ -8,6 +8,7 @@ const academyRoutes = require("./routes/academyRoutes");
 const authRoutes = require("./routes/authRoutes");
 const trainingRoutes = require("./routes/trainingRoutes");
 const personalTrainerRoutes = require("./routes/personalTrainerRoutes");
+const agendamentoRoutes = require("./routes/agendamentoRoutes");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use("/academy", academyRoutes);
 app.use("/auth", authRoutes);
 app.use("/treinos", trainingRoutes);
 app.use("/personal-trainers", personalTrainerRoutes);
+app.use("/agendamentos", agendamentoRoutes);
 
 app.get("/", (req, res) => {
   res.json({ mensagem: "API PowerGym funcionando!" });

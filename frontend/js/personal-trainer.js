@@ -103,13 +103,13 @@ function renderizarPersonais() {
       <div class="personal-info">
         <h3>${personal.nome}</h3>
         <p><strong>Especialização:</strong> ${personal.especializacao}</p>
-        <p><strong>Localização:</strong> ${personal.localizacao}</p>
+        <p><strong>Localização:</strong> ${personal.localizacao || 'Não informado'}</p>
         <p>${personal.descricao}</p>
         <p><strong>Valor:</strong> R$ ${Number(personal.valor_aula).toFixed(2)}</p>
 
         <div class="acoes-personal">
-          <button type="button" class="btn-contato" onclick="toggleContato(${personal.id})">
-            Contato
+          <button type="button" class="btn-contato" onclick="abrirAgendamento(${personal.id})">
+            Agendar treino
           </button>
 
           ${adminAtivo ? `
@@ -118,15 +118,15 @@ function renderizarPersonais() {
             </button>
           ` : ''}
         </div>
-
-        <div id="contato-${personal.id}" class="contato hidden">
-          📞 ${personal.telefone}
-        </div>
       </div>
     `;
 
     container.appendChild(card);
   });
+}
+
+function abrirAgendamento(personalId) {
+  window.location.href = `agendamentos.html?personal_id=${personalId}`;
 }
 
 async function confirmarExclusaoPersonal(id) {
@@ -195,12 +195,6 @@ function atualizarInterfaceAdmin() {
   }
 }
 
-function toggleContato(id) {
-  const contato = document.getElementById(`contato-${id}`);
-  if (!contato) return;
-  contato.classList.toggle('hidden');
-}
-
 function limparFormularioPersonalTrainer() {
   const form = document.getElementById('form-personal-trainer');
   if (form) form.reset();
@@ -228,7 +222,6 @@ function converterImagemRedimensionada(file, maxWidth, maxHeight, qualidade = 0.
       img.onload = function () {
         let largura = img.width;
         let altura = img.height;
-
         const proporcaoOriginal = largura / altura;
 
         if (largura > maxWidth || altura > maxHeight) {

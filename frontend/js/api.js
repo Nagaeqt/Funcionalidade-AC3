@@ -44,7 +44,6 @@ function getAuthHeaders() {
 
 /* ================= PERSONAL TRAINERS ================= */
 
-// 🔹 LISTAR PERSONAIS
 async function listarPersonaisAPI() {
   const response = await fetch(`${API_URL}/personal-trainers`, {
     method: "GET",
@@ -58,7 +57,6 @@ async function listarPersonaisAPI() {
   return await response.json();
 }
 
-// 🔹 CADASTRAR PERSONAL
 async function cadastrarPersonalAPI(dados) {
   const response = await fetch(`${API_URL}/personal-trainers`, {
     method: "POST",
@@ -74,7 +72,6 @@ async function cadastrarPersonalAPI(dados) {
   return await response.json();
 }
 
-// 🔹 EXCLUIR PERSONAL
 async function excluirPersonalAPI(id) {
   const response = await fetch(`${API_URL}/personal-trainers/${id}`, {
     method: "DELETE",
@@ -83,6 +80,49 @@ async function excluirPersonalAPI(id) {
 
   if (!response.ok) {
     throw new Error("Erro ao excluir personal");
+  }
+
+  return await response.json();
+}
+
+/* ================= AGENDAMENTOS ================= */
+
+async function listarAgendamentosAPI() {
+  const response = await fetch(`${API_URL}/agendamentos`, {
+    method: "GET",
+    headers: getAuthHeaders()
+  });
+
+  if (!response.ok) {
+    throw new Error("Erro ao buscar agendamentos");
+  }
+
+  return await response.json();
+}
+
+async function cadastrarAgendamentoAPI(dados) {
+  const response = await fetch(`${API_URL}/agendamentos`, {
+    method: "POST",
+    headers: getAuthHeaders(),
+    body: JSON.stringify(dados)
+  });
+
+  if (!response.ok) {
+    const erro = await response.json();
+    throw new Error(erro.mensagem || "Erro ao cadastrar agendamento");
+  }
+
+  return await response.json();
+}
+
+async function excluirAgendamentoAPI(id) {
+  const response = await fetch(`${API_URL}/agendamentos/${id}`, {
+    method: "DELETE",
+    headers: getAuthHeaders()
+  });
+
+  if (!response.ok) {
+    throw new Error("Erro ao cancelar agendamento");
   }
 
   return await response.json();
